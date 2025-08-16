@@ -26,6 +26,8 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
+    public Order() {}
+
     public Long getId() {
         return id;
     }
