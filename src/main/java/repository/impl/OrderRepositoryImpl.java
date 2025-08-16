@@ -1,7 +1,9 @@
 package repository.impl;
 
 import exception.RepositoryException;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceException;
 import model.Order;
 import repository.OrderRepository;
@@ -70,6 +72,13 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public void delete(Order order) {
-
+        try {
+            Order orderRef = em.getReference(Order.class, order.getId());
+            em.remove(order);
+        } catch (EntityNotFoundException e) {
+            throw new RepositoryException("Getting entity reference before removing entity failed.", e);
+        } catch (PersistenceException e) {
+            throw new RepositoryException("Deleting entity has been failed.", e);
+        }
     }
 }
