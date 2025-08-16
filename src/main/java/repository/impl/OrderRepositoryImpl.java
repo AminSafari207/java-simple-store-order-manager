@@ -61,7 +61,11 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public void update(Order order) {
-
+        try {
+            em.merge(order);
+        } catch (PersistenceException e) {
+            throw new RepositoryException("Updating order has been failed.", e);
+        }
     }
 
     @Override
