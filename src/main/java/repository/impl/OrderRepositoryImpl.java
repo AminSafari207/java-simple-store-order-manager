@@ -74,7 +74,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     public void delete(Order order) {
         try {
             Order orderRef = em.getReference(Order.class, order.getId());
-            em.remove(order);
+            em.remove(orderRef);
         } catch (EntityNotFoundException e) {
             throw new RepositoryException("Getting entity reference before removing entity failed.", e);
         } catch (PersistenceException e) {
