@@ -27,7 +27,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public List<Order> findAll() {
-        String hqlQuery = "Select o from Order o";
+        String hqlQuery = "select o from Order o";
 
         try {
             return em.createQuery(hqlQuery, Order.class).getResultList();
@@ -47,8 +47,16 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<Order> findByCustomerName(String name) {
-        return List.of();
+    public List<Order> findByCustomerName(String customerName) {
+        String hqlQuery = "select o from Order o where lower(o.customerName) like :customerName";
+
+        try {
+            return em.createQuery(hqlQuery, Order.class)
+                    .setParameter("customerName", "%" + customerName + "%")
+                    .getResultList();
+        } catch (PersistenceException e) {
+            throw new RepositoryException("Finding order by customer name has been failed.", e);
+        }
     }
 
     @Override
