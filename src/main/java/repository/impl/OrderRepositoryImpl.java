@@ -4,7 +4,6 @@ import exception.RepositoryException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import model.Order;
-import org.hibernate.QueryException;
 import repository.OrderRepository;
 
 import java.util.List;
@@ -39,7 +38,12 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Optional<Order> findById(Long id) {
-        return Optional.empty();
+        try {
+            Order order = em.find(Order.class, id);
+            return Optional.ofNullable(order);
+        } catch (PersistenceException e) {
+            throw new RepositoryException("Finding order by id has been failed.", e);
+        }
     }
 
     @Override
