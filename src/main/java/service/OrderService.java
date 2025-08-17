@@ -17,10 +17,11 @@ public class OrderService {
         this.emf = emf;
     }
 
-    public void createOrder(Order order) {
-        executeTransaction(em -> {
+    public Order createOrder(Order order) {
+        return executeTransaction(em -> {
             OrderRepository repo = new OrderRepositoryImpl(em);
             repo.create(order);
+            return order;
         });
     }
 

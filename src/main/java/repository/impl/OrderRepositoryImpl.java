@@ -19,9 +19,10 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void create(Order order) {
+    public Order create(Order order) {
         try {
             em.persist(order);
+            return order;
         } catch (PersistenceException e) {
             throw new RepositoryException("Persisting order has been failed.", e);
         }
