@@ -1,5 +1,6 @@
 package repository.impl;
 
+import exception.OrderNotFoundException;
 import exception.RepositoryException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
@@ -40,10 +41,13 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> findById(Long id) {
+    public Order findById(Long id) {
         try {
             Order order = em.find(Order.class, id);
-            return Optional.ofNullable(order);
+
+            if (order == null) throw new OrderNotFoundException(id);
+
+            return order;
         } catch (PersistenceException e) {
             throw new RepositoryException("Finding order by id has been failed.", e);
         }
