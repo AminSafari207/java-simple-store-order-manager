@@ -7,6 +7,7 @@ import model.Order;
 import repository.OrderRepository;
 import repository.impl.OrderRepositoryImpl;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -22,6 +23,13 @@ public class OrderService {
             OrderRepository repo = new OrderRepositoryImpl(em);
             repo.create(order);
             return order;
+        });
+    }
+
+    public void updateOrder(Order order) {
+        executeTransaction(em -> {
+            OrderRepository repo = new OrderRepositoryImpl(em);
+            repo.update(order);
         });
     }
 

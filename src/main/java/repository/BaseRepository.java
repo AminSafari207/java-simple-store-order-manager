@@ -7,6 +7,6 @@ public interface BaseRepository<T, ID> {
     T create(T t);
     List<T> findAll();
     Optional<T> findById(ID id);
-    T update(T t);
-    T delete(T t);
+    void update(T t);
+    void delete(T t);
 }
