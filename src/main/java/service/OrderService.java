@@ -123,7 +123,7 @@ public class OrderService {
         ValidationUtils.validateNotNull(order, "order");
         ValidationUtils.validateString(order.getCustomerName(), 3, "order.getCustomerName()");
         ValidationUtils.validateNotNull(order.getOrderDate(), "order.getOrderDate()");
-        validateTotalAmount(order.getTotalAmount(), "order.getTotalAmount()");
+        validateDoubleAmount(order.getTotalAmount(), "order.getTotalAmount()");
     }
 
     public void validateOrder(Order order) {
@@ -131,10 +131,10 @@ public class OrderService {
         ValidationUtils.validateId(order.getId(), "order.getId()");
         ValidationUtils.validateString(order.getCustomerName(), 3, "order.getCustomerName()");
         ValidationUtils.validateNotNull(order.getOrderDate(), "order.getOrderDate()");
-        validateTotalAmount(order.getTotalAmount(), "order.getTotalAmount()");
+        validateDoubleAmount(order.getTotalAmount(), "order.getTotalAmount()");
     }
 
-    public void validateTotalAmount(Double totalAmount, String logName) {
+    public void validateDoubleAmount(Double totalAmount, String logName) {
         ValidationUtils.validateNotNull(totalAmount, logName);
         if (totalAmount < 0) throw new IllegalArgumentException(logName + " must be 0 or positive.");
     }
@@ -158,5 +158,15 @@ public class OrderService {
                 .sorted(Comparator.comparing(Order::getTotalAmount).reversed())
                 .findFirst()
                 .get();
+    }
+
+    public List<Order> getOrdersByHigherAmount(Double amount) {
+        validateDoubleAmount(amount, "amount");
+
+        List<Order> orders = getAllOrders();
+
+        return orders.stream()
+                .filter(o -> o.getTotalAmount() > amount)
+                .toList();
     }
 }
