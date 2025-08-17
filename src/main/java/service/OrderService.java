@@ -8,6 +8,7 @@ import repository.OrderRepository;
 import repository.impl.OrderRepositoryImpl;
 import utils.ValidationUtils;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -148,5 +149,14 @@ public class OrderService {
         return orders.stream()
                 .mapToDouble(Order::getTotalAmount)
                 .sum();
+    }
+
+    public Order getMostExpensiveOrder() {
+        List<Order> orders = getAllOrders();
+
+        return orders.stream()
+                .sorted(Comparator.comparing(Order::getTotalAmount).reversed())
+                .findFirst()
+                .get();
     }
 }
