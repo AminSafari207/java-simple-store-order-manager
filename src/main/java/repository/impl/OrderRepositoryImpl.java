@@ -72,9 +72,9 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void delete(Order order) {
+    public void delete(Long orderId) {
         try {
-            Order orderRef = em.getReference(Order.class, order.getId());
+            Order orderRef = em.getReference(Order.class, orderId);
             em.remove(orderRef);
         } catch (EntityNotFoundException e) {
             throw new RepositoryException("Order not found.", e);
