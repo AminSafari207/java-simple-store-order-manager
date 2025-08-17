@@ -13,6 +13,7 @@ public class Order {
 
     private String customerName;
 
+    @Column(updatable = false)
     private LocalDate orderDate;
 
     private Double totalAmount;
