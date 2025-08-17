@@ -6,7 +6,7 @@ import java.util.Map;
 public class ValidationUtils {
     public static void validateId(Long id, String logName) {
         validateNotNull(id, logName);
-        if (id < 0) throw new IllegalArgumentException("id must be 0 or positive.");
+        if (id < 0) throw new IllegalArgumentException(logName + " must be 0 or positive.");
     }
 
     public static void validateString(String str, String logName) {

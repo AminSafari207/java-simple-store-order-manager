@@ -6,6 +6,7 @@ import jakarta.persistence.EntityTransaction;
 import model.Order;
 import repository.OrderRepository;
 import repository.impl.OrderRepositoryImpl;
+import utils.ValidationUtils;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -65,5 +66,18 @@ public class OrderService {
         } finally {
             em.close();
         }
+    }
+
+    public void validateOrder(Order order) {
+        ValidationUtils.validateNotNull(order, "order");
+        ValidationUtils.validateId(order.getId(), "order.getId()");
+        ValidationUtils.validateString(order.getCustomerName(), 3, "order.getCustomerName()");
+        ValidationUtils.validateNotNull(order.getOrderDate(), "order.getOrderDate()");
+        validateTotalAmount(order.getTotalAmount(), "order.getTotalAmount()");
+    }
+
+    public void validateTotalAmount(Double totalAmount, String logName) {
+        ValidationUtils.validateNotNull(totalAmount, logName);
+        if (totalAmount < 0) throw new IllegalArgumentException(logName + " must be 0 or positive.");
     }
 }
