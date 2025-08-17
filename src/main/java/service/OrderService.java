@@ -18,22 +18,10 @@ public class OrderService {
     }
 
     public void createOrder(Order order) {
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-
-        try {
-            tx.begin();
-
-            OrderRepository repository = new OrderRepositoryImpl(em);
-            repository.create(order);
-
-            tx.commit();
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            throw new RuntimeException("Transaction failed", e);
-        } finally {
-            em.close();
-        }
+        executeTransaction(em -> {
+            OrderRepository repo = new OrderRepositoryImpl(em);
+            repo.create(order);
+        });
     }
 
     public void executeTransaction(Consumer<EntityManager> consumer) {
