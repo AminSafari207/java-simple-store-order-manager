@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,13 +13,11 @@ public class Order {
 
     private String customerName;
 
-    @Column(updatable = false)
     private LocalDate orderDate;
 
     private Double totalAmount;
 
-    public Order(Long id, String customerName, LocalDate orderDate, Double totalAmount) {
-        this.id = id;
+    public Order(String customerName, LocalDate orderDate, Double totalAmount) {
         this.customerName = customerName;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;

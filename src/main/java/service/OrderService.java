@@ -24,7 +24,7 @@ public class OrderService {
     ////////////////////////////////////
 
     public Order createOrder(Order order) {
-        validateOrder(order);
+        validateOrderWithoutId(order);
 
         return executeTransaction(em -> {
             OrderRepository repo = new OrderRepositoryImpl(em);
@@ -117,6 +117,13 @@ public class OrderService {
     ////////////////////////////////////
     /// Validators /////////////////////
     ////////////////////////////////////
+
+    public void validateOrderWithoutId(Order order) {
+        ValidationUtils.validateNotNull(order, "order");
+        ValidationUtils.validateString(order.getCustomerName(), 3, "order.getCustomerName()");
+        ValidationUtils.validateNotNull(order.getOrderDate(), "order.getOrderDate()");
+        validateTotalAmount(order.getTotalAmount(), "order.getTotalAmount()");
+    }
 
     public void validateOrder(Order order) {
         ValidationUtils.validateNotNull(order, "order");
