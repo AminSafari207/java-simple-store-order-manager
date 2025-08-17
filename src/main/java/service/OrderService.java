@@ -63,6 +63,15 @@ public class OrderService {
         });
     }
 
+    public List<Order> getOrdersByCustomerName(String customerName) {
+        ValidationUtils.validateString(customerName, 3, "customerName");
+
+        return executeTransaction(em -> {
+           OrderRepository repo = new OrderRepositoryImpl(em);
+           return repo.findByCustomerName(customerName);
+        });
+    }
+
     public void executeTransaction(Consumer<EntityManager> consumer) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
