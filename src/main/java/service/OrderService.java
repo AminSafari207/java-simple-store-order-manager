@@ -38,6 +38,15 @@ public class OrderService {
         });
     }
 
+    public void removeOrder(Long orderId) {
+        ValidationUtils.validateId(orderId, "orderId");
+
+        executeTransaction(em -> {
+            OrderRepository repo = new OrderRepositoryImpl(em);
+            repo.delete(orderId);
+        });
+    }
+
     public void executeTransaction(Consumer<EntityManager> consumer) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
