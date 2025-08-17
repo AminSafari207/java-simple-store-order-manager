@@ -19,6 +19,10 @@ public class OrderService {
         this.emf = emf;
     }
 
+    ////////////////////////////////////
+    /// Main service methods ///////////
+    ////////////////////////////////////
+
     public Order createOrder(Order order) {
         validateOrder(order);
 
@@ -72,6 +76,10 @@ public class OrderService {
         });
     }
 
+    ////////////////////////////////////
+    /// Transaction executors //////////
+    ////////////////////////////////////
+
     public void executeTransaction(Consumer<EntityManager> consumer) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -106,6 +114,10 @@ public class OrderService {
         }
     }
 
+    ////////////////////////////////////
+    /// Validators /////////////////////
+    ////////////////////////////////////
+
     public void validateOrder(Order order) {
         ValidationUtils.validateNotNull(order, "order");
         ValidationUtils.validateId(order.getId(), "order.getId()");
@@ -118,4 +130,8 @@ public class OrderService {
         ValidationUtils.validateNotNull(totalAmount, logName);
         if (totalAmount < 0) throw new IllegalArgumentException(logName + " must be 0 or positive.");
     }
+
+    ////////////////////////////////////
+    /// Stream methods /////////////////
+    ////////////////////////////////////
 }
