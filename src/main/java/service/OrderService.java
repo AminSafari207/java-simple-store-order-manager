@@ -54,6 +54,15 @@ public class OrderService {
         });
     }
 
+    public Order getOrderById(Long orderId) {
+        ValidationUtils.validateId(orderId, "orderId");
+
+        return executeTransaction(em -> {
+            OrderRepository repo = new OrderRepositoryImpl(em);
+            return repo.findById(orderId);
+        });
+    }
+
     public void executeTransaction(Consumer<EntityManager> consumer) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
