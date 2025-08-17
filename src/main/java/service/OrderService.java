@@ -47,6 +47,13 @@ public class OrderService {
         });
     }
 
+    public List<Order> getAllOrders() {
+        return executeTransaction(em -> {
+            OrderRepository repo = new OrderRepositoryImpl(em);
+            return repo.findAll();
+        });
+    }
+
     public void executeTransaction(Consumer<EntityManager> consumer) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
