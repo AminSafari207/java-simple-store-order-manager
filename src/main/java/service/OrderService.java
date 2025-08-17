@@ -141,4 +141,12 @@ public class OrderService {
     ////////////////////////////////////
     /// Stream methods /////////////////
     ////////////////////////////////////
+
+    public Double calculateTotalSalesAmount() {
+        List<Order> orders = getAllOrders();
+
+        return orders.stream()
+                .mapToDouble(Order::getTotalAmount)
+                .sum();
+    }
 }
