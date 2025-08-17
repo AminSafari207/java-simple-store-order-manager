@@ -20,6 +20,8 @@ public class OrderService {
     }
 
     public Order createOrder(Order order) {
+        validateOrder(order);
+
         return executeTransaction(em -> {
             OrderRepository repo = new OrderRepositoryImpl(em);
             repo.create(order);
@@ -28,6 +30,8 @@ public class OrderService {
     }
 
     public void updateOrder(Order order) {
+        validateOrder(order);
+
         executeTransaction(em -> {
             OrderRepository repo = new OrderRepositoryImpl(em);
             repo.update(order);
