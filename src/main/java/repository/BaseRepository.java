@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BaseRepository<T, ID> {
-    T create(T t);
+    void create(T t);
     List<T> findAll();
     T findById(ID id);
     void update(T t);
