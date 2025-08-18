@@ -77,7 +77,7 @@ public class OrderService {
 
         return executeTransaction(em -> {
            OrderRepository repo = new OrderRepositoryImpl(em);
-           return repo.findByCustomerName(customerName);
+           return repo.findByCustomerName(customerName.toLowerCase());
         });
     }
 
