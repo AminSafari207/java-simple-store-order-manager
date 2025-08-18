@@ -8,10 +8,14 @@ import repository.OrderRepository;
 import repository.impl.OrderRepositoryImpl;
 import utils.ValidationUtils;
 
+import java.time.format.TextStyle;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class OrderService {
     private final EntityManagerFactory emf;
@@ -168,5 +172,15 @@ public class OrderService {
         return orders.stream()
                 .filter(o -> o.getTotalAmount() > amount)
                 .toList();
+    }
+
+    public Map<String, Double> getTotalSalesAmountPerMonth() {
+        List<Order> orders = getAllOrders();
+
+        return orders.stream()
+                .collect(Collectors.groupingBy(
+                        o -> o.getOrderDate().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH),
+                        Collectors.summingDouble(Order::getTotalAmount)
+                ));
     }
 }
